@@ -18,18 +18,14 @@ def tbspdists(remtbsp, n):
             res.append(prefix + rest)
     return res
 
-def caldists(remcal, index):
-    calsptbsp = ingredients[ingredientnames[index]]["calories"]
-    if index == len(ingredientnames) - 1:
-        if remcal % calsptbsp == 0:
-            return [[remcal // calsptbsp]]
+def caldists(tcals):
     res = []
-    tbsps = 0
-    while (ccals := tbsps * calsptbsp) <= remcal:
-        prefix = [tbsps]
-        for rest in caldists(remcal - ccals, index + 1):
-            res.append(prefix + rest)
-        tbsps += 1
+    for dist in tbspdists(100, len(ingredients)):
+        distcals = 0
+        for index, tbsp in enumerate(dist):
+            distcals += ingredients[ingredientnames[index]]["calories"] * tbsp
+        if distcals == tcals:
+            res.append(dist)
     return res
 
 def getscore(dist):
@@ -47,13 +43,5 @@ def gethiscore(dists):
         hiscore = max(hiscore, getscore(dist))
     return hiscore
 
-#print(f"part1: {gethiscore(tbspdists(100, len(ingredients)))}")
-dists = caldists(500, 0)
-for dist in dists:
-    distcals = 0
-    for index, tbsp in enumerate(dist):
-        distcals += ingredients[ingredientnames[index]]["calories"] * tbsp
-    print(f"{distcals} cals in dist {dist}")
-for ing in ingredientnames:
-    print(f"{ing} calories: {ingredients[ing]['calories']}")
-print(f"part2: {gethiscore(dists)}")
+print(f"part1: {gethiscore(tbspdists(100, len(ingredients)))}")
+print(f"part2: {gethiscore(caldists(500))}")
