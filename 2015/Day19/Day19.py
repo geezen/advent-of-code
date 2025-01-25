@@ -8,11 +8,13 @@ for row in i1.split("\n"):
     subs[fr].add(to)
 pattern = "|".join(subs.keys())
 
-gen = set()
-for match in re.finditer(pattern, i2):
-    a, b = match.span()
-    for sub in subs[match.group()]:
-        ns = i2[:a] + sub + i2[b:]
-        gen.add(ns)
-print(f"part1: {len(gen)}")
+def nextmolecules(curmol):
+    gen = set()
+    for match in re.finditer(pattern, curmol):
+        a, b = match.span()
+        for sub in subs[match.group()]:
+            ns = curmol[:a] + sub + curmol[b:]
+            gen.add(ns)
+    return gen
 
+print(f"part1: {len(nextmolecules(i2))}")
