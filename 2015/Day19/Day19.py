@@ -25,3 +25,23 @@ def lenprefixmatch(s1, s2):
     return i
 
 print(f"part1: {len(nextmolecules(i2))}")
+
+invsubs = {}
+for k, v in subs.items():
+    for nk in v:
+        assert nk not in invsubs
+        invsubs[nk] = k
+invkeys = sorted(invsubs.keys(), key=lambda s: -1 * len(s))
+
+def recfunc(curmol, depth):
+    if curmol == "e": 
+        return depth
+    for key in invkeys:
+        if match := re.search(key, curmol):
+            a, b = match.span()
+            nmol = curmol[:a] + invsubs[match.group()] + curmol[b:]
+            res = recfunc(nmol, depth + 1)
+            if res > 0: return res
+    return -1
+
+print(f"part2: {recfunc(i2, 0)}")
