@@ -15,7 +15,7 @@ print(f"Part1: {password}")
 dial = 50
 password = 0
 for dir, dist in rotations:
-    for i in range(dist):
+    for _ in range(dist):
         dial += dir
         if dial % 100 == 0:
             password += 1
