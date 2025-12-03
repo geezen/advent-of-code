@@ -1,6 +1,4 @@
-import re
-
-banks = [list(map(int, re.findall(r"\d", line))) for line in open("2025/Day3/in.txt").readlines()]
+banks = [list(map(int, line.strip())) for line in open("2025/Day3/in.txt").readlines()]
 
 # part1  
 res = 0
